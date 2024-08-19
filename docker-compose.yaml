@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./docker_service_web
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/swa1
+    volumes:
+      - ./docker_service_web:/usr/src/app
+
+  db:
+    build: ./docker_service_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: swa1
+    ports:
+      - "5432:5432"

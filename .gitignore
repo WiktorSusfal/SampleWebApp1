@@ -1,3 +1,5 @@
 webenv/
 instance/
 .webassets-cache
+.env
+.vscode/
