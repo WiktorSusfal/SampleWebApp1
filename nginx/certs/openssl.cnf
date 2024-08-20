@@ -1,0 +1,28 @@
+[ req ]
+default_bits       = 2048
+default_keyfile    = selfsigned.key
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+x509_extensions    = v3_ca
+
+[ req_distinguished_name ]
+countryName            = PL
+countryName_default    = US
+stateOrProvinceName    = Mazovia
+stateOrProvinceName_default = Mazovia
+localityName           = Warsaw
+localityName_default   = Default City
+organizationName       = private
+organizationName_default = private
+commonName             = swa1
+commonName_default     = localhost
+commonName_max         = 64
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ v3_ca ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = localhost
