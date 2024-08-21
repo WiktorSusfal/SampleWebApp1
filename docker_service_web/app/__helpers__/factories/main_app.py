@@ -1,5 +1,6 @@
 import os
 from flask                      import Flask, current_app
+from flask_limiter              import Limiter
 from flask_talisman             import Talisman
 from flask_login                import LoginManager
 from flask_sqlalchemy           import SQLAlchemy
@@ -7,7 +8,7 @@ from flask_sqlalchemy           import SQLAlchemy
 from app.__config__.settings    import LOGIN_PAGE_ENDPOINT
 
 
-def create_app(app_db: SQLAlchemy) -> Flask:
+def create_app(app_db: SQLAlchemy, app_limiter: Limiter) -> Flask:
     app = Flask(__name__, template_folder='../../templates')
     app.config['SECRET_KEY']                     = os.getenv('APP_SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI']        = os.getenv('DATABASE_URL')
@@ -21,6 +22,8 @@ def create_app(app_db: SQLAlchemy) -> Flask:
     app.config['ADMIN_DEFAULT_PASSWORD']         = 'admin'
 
     Talisman(app, force_https=True)
+
+    app_limiter.init_app(app)
 
     app_db.init_app(app)
     with app.app_context():

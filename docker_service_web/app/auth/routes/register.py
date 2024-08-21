@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect, url_for, flash
 from sqlalchemy.exc import IntegrityError
 
-from app.__helpers__.factories   import app_db
+from app.__helpers__.factories   import app_db, app_limiter
 from app.auth                    import auth_bp
 from app.auth.forms.registration import RegistrationForm
 from app.auth.models.user        import User
@@ -11,6 +11,7 @@ db = app_db
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
+@app_limiter.limit("20 per minute")
 def register():
     form: RegistrationForm = RegistrationForm(request.form)
     
