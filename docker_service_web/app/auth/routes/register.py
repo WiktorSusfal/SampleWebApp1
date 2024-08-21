@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash
 from sqlalchemy.exc import IntegrityError
 
 from app.__helpers__.factories   import app_db
@@ -12,9 +12,9 @@ db = app_db
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    form: RegistrationForm = RegistrationForm()
+    form: RegistrationForm = RegistrationForm(request.form)
     
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate():
         
         user = User(username=form.username.data)
         user.set_password(form.password.data)

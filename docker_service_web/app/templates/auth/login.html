@@ -18,6 +18,7 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+    
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
@@ -27,5 +28,11 @@
     </ul>
     {% endif %}
     {% endwith %}
+
+    <br>
+    <p>Do not have account yet?</p>
+    <form action="{{ url_for('auth.register') }}">
+        <button type="submit" class="btn btn-secondary">Register</button>
+    </form>
 </body>
 </html>

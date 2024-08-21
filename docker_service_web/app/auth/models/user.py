@@ -17,6 +17,11 @@ class User(db.Model, UserMixin):
     id       = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     pwd_hash = db.Column(db.String(255), nullable=False)
+    login_attempt  = db.Column(db.Integer, default=0)
+    account_locked = db.Column(db.Boolean, default=False)
+    lockout_time   = db.Column(db.DateTime, nullable=True)
+    admin_account  = db.Column(db.Boolean, default=False)
+    login_attempts  = db.relationship('LoginAttempt', backref='fkuser', lazy=True)
 
     def set_password(self, password: str):
         self.pwd_hash = pwd_ctx.hash(password)

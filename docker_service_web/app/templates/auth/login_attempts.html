@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Attempts History</title>
+</head>
+<body>
+    <h1>Login Attempts History for {{ user.username }}</h1>
+    
+    <table  border="1">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Success</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in login_history %}
+            <tr>
+                <td>{{ record.login_time }}</td>
+                <td>{{ 'Yes' if record.success else 'No' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('auth.users') }}">Back to Users Dashboard</a>
+
+    <form action="{{ url_for('auth.logout') }}">
+        <button type="submit" class="btn btn-secondary">Logout</button>
+    </form>
+</body>
+</html>

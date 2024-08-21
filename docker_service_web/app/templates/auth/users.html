@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+<body>
+    <h1>Users</h1>
+    
+    <h2>Manage Users</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Is Locked</th>
+                {% if current_user.admin_account %}
+                    <th>Unlock</th>
+                {% endif %}
+                <th>Login Attempts History</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.account_locked }}</td>
+                
+                {% if current_user.admin_account %}
+                <td>
+                    {% if user.account_locked %}
+                    <form action="{{ url_for('auth.unlock_user', user_id=user.id) }}" method="POST">
+                        <button type="submit">Unlock</button>
+                    </form>
+                    {% endif %}
+                </td>
+                {% endif %}
+                
+                <td>
+                    <form action="{{ url_for('auth.set_user_id', user_id=user.id) }}" method="POST">
+                        <button type="submit">View History</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('auth.logout') }}">
+        <button type="submit" class="btn btn-secondary">Logout</button>
+    </form>
+</body>
+</html>
