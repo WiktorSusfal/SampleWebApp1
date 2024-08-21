@@ -4,13 +4,14 @@ from datetime    import datetime, timedelta, timezone
 
 from app.auth                   import auth_bp
 from app.__config__.settings    import MAIN_PAGE_ENDPOINT
-from app.__helpers__.factories  import app_db
+from app.__helpers__.factories  import app_db, app_limiter
 from app.auth.models.user       import User 
 from app.auth.models.login_attempt import LoginAttempt
 from app.auth.forms.login       import LoginForm
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
+@app_limiter.limit("20 per minute")
 def login():
     if request.method == 'GET':
         return render_template('auth/login.html', form=LoginForm(request.form))
