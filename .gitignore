@@ -1,3 +1,7 @@
 webenv/
 instance/
 .webassets-cache
+.env
+.vscode/
+**/__pycache__/
+**/*.key
