@@ -36,15 +36,15 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: swa1
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - samplewebapp1_postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - swa1_net
 
 volumes:
-  postgres_data:
-    driver: local
+  samplewebapp1_postgres_data:
+    external: True
 
 networks:
   swa1_net:

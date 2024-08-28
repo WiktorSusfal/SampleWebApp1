@@ -1,34 +1,28 @@
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
 
 from app.__helpers__.factories   import app_db, app_limiter
 from app.auth                    import auth_bp
-from app.auth.forms.registration import RegistrationForm
 from app.auth.models.user        import User
-from app.__config__.settings     import LOGIN_PAGE_ENDPOINT
 
 db = app_db  
 
 
-@auth_bp.route('/register', methods=['GET', 'POST'])
+@auth_bp.route('/register', methods=['POST'])
 @app_limiter.limit("20 per minute")
 def register():
-    form: RegistrationForm = RegistrationForm(request.form)
+    jdata = request.json
+    username = jdata.get('username')
+    password = jdata.get('password')
     
-    if request.method == 'POST' and form.validate():
-        
-        user = User(username=form.username.data)
-        user.set_password(form.password.data)
+    user = User(username=username)
+    user.set_password(password)
 
-        try:
-            db.session.add(user)
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            flash('Error: Username or email already exists.', 'danger')
-            return render_template('auth/register.html', form=form)
-
-        flash('Your account has been created!', 'success')
-        return redirect(url_for(LOGIN_PAGE_ENDPOINT))
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'message': 'Error: Username or email already exists.'}), 401
     
-    return render_template('auth/register.html', form=form)
+    return jsonify({'message': 'Your account has been created!'}), 200

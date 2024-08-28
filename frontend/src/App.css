@@ -1,0 +1,22 @@
+.message {
+    font-size: 0.875rem;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.message-error {
+    color: red;
+}
+
+.message-success {
+    color: green; 
+}
+
+.login-form-container {
+    max-width: 400px; /* Set a maximum width for the form */
+    margin: 50px auto; /* Center the form horizontally and add some vertical spacing */
+    padding: 20px; /* Add some padding around the form */
+    background-color: #f9f9f9; /* Optional: Add a background color */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
